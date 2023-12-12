@@ -1,0 +1,6 @@
+QuestionID,QuestionType,QuestionText,Learning Objectives,Choice1,Choice2,Choice3,Choice4,Choice5,CorrectAnswer, Rationale
+1,multiple-choice,Where is the Great Victoria Desert located? ,"Geography, Beginner",Canada,West Africa,Australia,North America,Panama,Australia,To understand and learn more about local geography.
+2,Fill-in-the-blank,[[Venus]] and [[Uranus]] only these two planets rotate from east to west.,"Geography, Intermediate",,,,,,,Know more about our solar system.
+3,essay,Is democracy necessary to bring development?,"Politics, Intermediate",,,,,,,Political Consciousness development.
+4,True-false,Earth Rotation is also called annual motion of the earth?,"Geography, Beginner",TRUE,FALSE,,,,FALSE,
+5,multiple-answer-multiple-choice,Which of the following country is in asia?,"Geography, Beginner",Singapore,Australia,Japan,Indonesia,,"Singapore,Japan,Indonesia",
