@@ -1,0 +1,5 @@
+pytest~=7.4.3
+selenium~=4.16.0
+Faker~=21.0.0
+opencv-python~=4.9.0.80
+requests~=2.31.0
