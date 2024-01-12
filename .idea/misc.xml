@@ -3,7 +3,7 @@
   <component name="Black">
     <option name="executionMode" value="BINARY" />
     <option name="pathToExecutable" value="C:\Users\god\anaconda3\Scripts\black.exe" />
-    <option name="sdkUUID" value="5ba8d6d1-58a3-4ef4-abf2-8107a8597b5b" />
+    <option name="sdkName" value="Python 3.12 (.venv)" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.10 (ProctortrackWebAppTest)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (.venv)" project-jdk-type="Python SDK" />
 </project>

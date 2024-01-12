@@ -3,7 +3,10 @@ import time
 from datetime import datetime, timedelta
 import datetime
 import os
+
+import allure
 import pytest
+from allure_commons.types import AttachmentType
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -15,6 +18,7 @@ from faker import Faker
 
 
 class Test_EditButton:
+
     baseURL = ReadConfig.getAppURL()
     username = ReadConfig.getUserEmail()
     password = ReadConfig.getUserPassword()
@@ -63,11 +67,14 @@ class Test_EditButton:
         if actual_test_name == test_name:
             assert True
         else:
+            allure.attach(self.driver.get_screenshot_as_png(), name='Create Test', attachment_type=AttachmentType.PNG)
+
             assert False
 
         self.driver.quit()
 
     def test_AddStudent(self, setup):
+
         self.driver = setup
         self.driver.get(self.baseURL)
         wait = WebDriverWait(self.driver, 10)
@@ -93,6 +100,8 @@ class Test_EditButton:
 
             assert True
         else:
+            allure.attach(self.driver.get_screenshot_as_png(), name='Adding Email', attachment_type=AttachmentType.PNG)
+
             assert False
         # Close the browser
         self.driver.quit()
@@ -109,7 +118,7 @@ class Test_EditButton:
 
         test_page = TestCreatePage(self.driver)
         test_page.upload_questions()
-        csv_path = os.path.abspath("CSV/sample-csv.csv")
+        csv_path = os.path.abspath("C:\\Users\\prasa\\PycharmProjects\\ProctortrackWebAppTest\\CSV\\sample-csv.csv")
         upload_question_csv = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id='id_file']")))
         upload_question_csv.send_keys(csv_path)
         upload_data_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id='func-upload-question-data']")))
@@ -175,10 +184,52 @@ class Test_EditButton:
 
         else:
             self.logger.info("Exam level not changed Successfully")
+            allure.attach(self.driver.get_screenshot_as_png(), name='Proctoring', attachment_type=AttachmentType.PNG)
+
+            self.driver.quit()
             assert False
-
-
-
-
         self.driver.quit()
 
+    def test_publishtest(self,setup, ):
+        self.driver = setup
+        self.driver.get(self.baseURL)
+        wait = WebDriverWait(self.driver, 10)
+
+        self.lp = Login(self.driver)
+        self.lp.setUserName(self.username)
+        self.lp.setPassword(self.password)
+        self.lp.clickLogin()
+        test_page = TestCreatePage(self.driver)
+        rows = test_page.get_all_rows()
+        # test_name = self.test_CreateTest(setup)
+        # Example: Click on the row with the name "whose"
+        element = self.driver.find_element(By.XPATH, "/html/body/div[2]/div/div/div/div[2]/span[2]")
+
+        # Get the text from the element
+        text = element.text
+        target_name = text
+        target_row = None
+        for row in rows:
+            try:
+                name_in_first_td = row.find_element(*test_page.name_in_first_td_locator).text
+                print(f"Found name in first td: {name_in_first_td}")
+
+                if name_in_first_td == target_name:
+                    target_row = row
+                    break
+            except Exception as e:
+                allure.attach(self.driver.get_screenshot_as_png())
+                print(f"Error finding name in first td: {e}")
+
+        # Check if the target row is found
+        if target_row:
+            # Click on the button in the 7th <td> of the target row
+            button_in_seventh_td = target_row.find_element(*test_page.button_in_seventh_td_locator)
+            button_in_seventh_td.click()
+
+            # Wait for the popup to appear
+            popup = WebDriverWait(self.driver, 10).until(EC.alert_is_present())
+
+            popup.accept()
+        else:
+            print(f"Name '{target_name}' not found in any row.")

@@ -1,11 +1,13 @@
 import os
 import pytest
+import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pageObjects.LoginPage import Login
 from utilities.readproperties import ReadConfig
 from utilities.customlogger import CustomLogger
+from allure_commons.types import AttachmentType
 
 log_dir = os.path.abspath(os.path.join(os.getcwd(), "..", "Logs"))
 CustomLogger.configure_logger()
@@ -25,12 +27,16 @@ class Test_001_Login:
             self.driver.get(self.baseURL)
             act_title = self.driver.title
 
-            if act_title == "Login":
+            if act_title == "Login11":
                 self.logger.info("Home page title is correct.")
                 assert True
             else:
                 self.logger.error("Home page title is incorrect. Test is failed")
-                CustomLogger.capture_screenshot(self.driver, "test_HomePage-title111")
+                # screenshot_name = "test_HomePage-title111.png"
+                # CustomLogger.capture_screenshot(self.driver, screenshot_name)
+
+                # Get the full path to the screenshot
+                allure.attach(self.driver.get_screenshot_as_png(), name='Screenshot', attachment_type=AttachmentType.PNG)
                 assert False
         except Exception as e:
             self.logger.error(f"Exception occurred: {str(e)}")
@@ -56,7 +62,10 @@ class Test_001_Login:
             self.logger.info("Login test completed.")
         except Exception as e:
             self.logger.error(f"Exception occurred: {str(e)}")
-            CustomLogger.capture_screenshot(self.driver, "test_login_failure.png")
+            # screenshot_name = "test_login_failure.png"
+            # CustomLogger.capture_screenshot(self.driver, name="Screenshot")
+            allure.attach(self.driver.get_screenshot_as_png(), name='Screenshot', attachment_type=AttachmentType.PNG)
+
             assert False
         finally:
             self.driver.close()

@@ -6,9 +6,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-
-
-
 class TestCreatePage:
     def __init__(self, driver):
         self.driver = driver
@@ -35,8 +32,12 @@ class TestCreatePage:
         self.add_student_button_locator = (By.XPATH, "//*[@id='cssmenu']/ul/li[3]/ul/li[3]/ul/li[2]/a")
         self.edit_test_button_locator = (By.XPATH, "//*[@id='cssmenu']/ul/li[3]/ul/li[2]/a")
         self.bulk_question_import_locator = (By.XPATH, "//*[@id='cssmenu']/ul/li[3]/ul/li[2]/ul/li[2]/a")
-        self.configure_test_button_locator = (By.XPATH,"//*[@id='cssmenu']/ul/li[3]/ul/li[1]/ul/li[3]/a")
+        self.configure_test_button_locator = (By.XPATH, "//*[@id='cssmenu']/ul/li[3]/ul/li[1]/ul/li[3]/a")
         self.proctoring_level_button_locator = (By.XPATH, "//*[@id='content']/div/div/ul/li[1]/a")
+        self.table_locator = (By.XPATH, '//*[@id="current-tests"]/div[1]/div/table')
+        self.row_locator = (By.XPATH, 'tbody/tr')
+        self.name_in_first_td_locator = (By.XPATH, 'td[1]/a')
+        self.button_in_seventh_td_locator = (By.XPATH, 'td[7]//button')
 
     def create_test_btn(self):
         """Click on the 'Create Test' button."""
@@ -99,6 +100,7 @@ class TestCreatePage:
         wait.until(EC.visibility_of_element_located(self.student_id_locator)).send_keys(student_id)
         wait.until(EC.visibility_of_element_located(self.student_email_locator)).send_keys(student_email)
         wait.until(EC.element_to_be_clickable(self.submit_reg_data_locator)).click()
+
     def upload_questions(self):
         wait = WebDriverWait(self.driver, 10)
         edit_btn = wait.until(EC.element_to_be_clickable(self.edit_btn_locator))
@@ -116,6 +118,7 @@ class TestCreatePage:
         edit_test_btn.click()
         config_test_btn = wait.until(EC.element_to_be_clickable(self.configure_test_button_locator))
         config_test_btn.click()
+
     def set_levels(self):
         wait = WebDriverWait(self.driver, 10)
         proctoring_btn = wait.until(EC.element_to_be_clickable(self.proctoring_level_button_locator))
@@ -127,3 +130,11 @@ class TestCreatePage:
         wait.until(EC.element_to_be_clickable(self.publish_test_button_locator)).click()
         alert = self.driver.switch_to.alert
         alert.accept()
+
+    def get_all_rows(self):
+        """Get all rows in the table."""
+        wait = WebDriverWait(self.driver, 10)
+        table_locator = (By.XPATH, '//*[@id="current-tests"]/div[1]/div/table')
+        table = wait.until(EC.presence_of_element_located(table_locator))
+        rows = table.find_elements(By.XPATH, './tbody/tr')
+        return rows

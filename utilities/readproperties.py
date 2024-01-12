@@ -1,8 +1,8 @@
 import configparser
+import os
 
 config = configparser.RawConfigParser()
-config.read("C:\\Users\\god\\PycharmProjects\\ProctortrackWebAppTest\\Configurations\\config.ini")
-
+config.read("C:\\Users\\prasa\\PycharmProjects\\ProctortrackWebAppTest\\Configurations\\config.ini")
 
 
 class ReadConfig:
