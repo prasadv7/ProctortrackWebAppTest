@@ -1,5 +1,7 @@
 pytest~=7.4.3
-selenium~=4.16.0
+selenium~=4.15.0
 Faker~=21.0.0
-opencv-python~=4.9.0.80
+opencv-python
 requests~=2.31.0
+ChromeController~=0.3.26
+allure-pytest

@@ -22,7 +22,7 @@ class TestSingleReviewPage():
     # Class-level variable to store the URL
     opened_url = None
 
-    @pytest.mark.xfail(raises=AssertionError)
+    # @pytest.mark.xfail(raises=AssertionError)
     def test_single_review_test_url(self, setup):
         self.driver = setup
         self.driver.get(self.baseURL)
@@ -39,23 +39,25 @@ class TestSingleReviewPage():
 
         while True:
             rows = review_page.get_all_rows()
+
             for row in rows:
-                if row.find_element(By.XPATH, 'td[1]').text.strip():
-                    try:
+                try:
+                    # Refresh the row element on each iteration
+                    row = review_page.get_row_by_index(rows.index(row) + 1)
+                    if row.find_element(By.XPATH, 'td[1]').text.strip():
                         non_empty_row_counter += 1
                         a_tag = row.find_element(By.XPATH, 'td[1]/a')
                         a_tag_text = a_tag.text
                         if a_tag_text == name_to_search:
-                                if review_page.click_name_in_row(name_to_search):
-
-                                    if review_page.no_candidate_msg():
+                            if review_page.click_name_in_row(name_to_search):
+                                if review_page.no_candidate_msg():
                                     # Store the URL in the class-level variable
-                                        TestSingleReviewPage.opened_url = self.driver.current_url
-                                        time.sleep(3)
-                                        self.driver.quit()
-                                        return
-                    except Exception as e:
-                        pass
+                                    TestSingleReviewPage.opened_url = self.driver.current_url
+                                    time.sleep(3)
+                                    self.driver.quit()
+                                    return
+                except Exception as e:
+                    pass
 
             # If the name is not found in any row, take the last page's screenshot and assert False
             allure.attach(self.driver.get_screenshot_as_png(), name='name_not_found.png',
